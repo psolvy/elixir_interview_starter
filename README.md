@@ -10,15 +10,15 @@ installations with [asdf](https://github.com/asdf-vm/asdf) (with the
 
 After forking and cloning the repository, install dependencies:
 
-```mix deps.get```
+`mix deps.get`
 
 Then compile the project:
 
-```mix compile```
+`mix compile`
 
 Then you can start the interactive Elixir shell:
 
-```iex -S mix```
+`iex -S mix`
 
 ## Calibrating a Pool Chemistry Monitoring Device
 
@@ -145,7 +145,7 @@ Here's what to expect:
 4. We review and score your submission internally.
 5. Optionally, we may choose to schedule a follow-up call with you and ask you to walk us
    through how your submission works and any tests you wrote (10-20 min).
-6. ***\*\*Important!!\*\**** If we choose to schedule this call, we will also ask you to
+6. **\*\*\*Important!!\*\*\*** If we choose to schedule this call, we will also ask you to
    choose an Elixir-specific concept that you leveraged in your submission and prepare to
    give a short (5-10 min) explanation to us of how that concept works, as if you were
    introducing the concept to a junior engineer with limited exposure to Elixir. You
@@ -160,31 +160,28 @@ Here's what to expect:
 There aren't intended to be any tricks or "gotchas" with this challenge, and to that end,
 we also aim to be fully transparent about how we will score your submission:
 
-| Points | Description |
-| ---- | ---- |
-| --- | **Business Requirements** |
-| 10 | `start/1` starts a new process and sends the `"startPrecheck1"` command |
-| 3 | Handles Precheck 1 responses |
-| 8 | `start_precheck_2/1` uses the existing process to send the `"startPrecheck2"` command |
-| 3 | Handles Precheck 2 responses |
-| 5 | Progresses automatically to send `"calibrate"` command when both Precheck 2 checks pass
-| 3 | Handles Calibrated responses |
-| 3 | `get_current_session/1` returns the current state of the `CalibrationSession`
-| --- | **Implementation** |
-| 3 | Correctly uses Supervisors and GenServers |
-| 8 | Implements tests for the behavior of all the three API methods |
-| 3 | Implements e2e flow test for happy path
-| 1 | Makes effective use of any 3rd party packages
-| --- | **Organization** |
-| 6 | Before beginning, formulates and expresses a plan using pseudo-code, writing notes, drawing diagrams, or the like
-| 2 | Arranges any directories, modules, and logic in a way that is consistent and intuitive
-| 2 | Provides names for functions and variables that are clear and expressive
-| 2 | Leaves intelligent git commit messages
-| --- | **Presentation** |
-| 4 | Provides an appropriate amount of documentation in the form of code comments
-| 8 | Explains their implementation choices and walks through their submission clearly and confidently
-| 2 | Reflects on any missteps or areas for improvement and is receptive to feedback shared
-| 10 | Verbally articulates an Elixir concept of their choice in a way that would be easy to grasp for a junior engineer with limited exposure to Elixir
-
-
-
+| Points | Description                                                                                                                                       |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ---    | **Business Requirements**                                                                                                                         |
+| 10     | `start/1` starts a new process and sends the `"startPrecheck1"` command                                                                           |
+| 3      | Handles Precheck 1 responses                                                                                                                      |
+| 8      | `start_precheck_2/1` uses the existing process to send the `"startPrecheck2"` command                                                             |
+| 3      | Handles Precheck 2 responses                                                                                                                      |
+| 5      | Progresses automatically to send `"calibrate"` command when both Precheck 2 checks pass                                                           |
+| 3      | Handles Calibrated responses                                                                                                                      |
+| 3      | `get_current_session/1` returns the current state of the `CalibrationSession`                                                                     |
+| ---    | **Implementation**                                                                                                                                |
+| 3      | Correctly uses Supervisors and GenServers                                                                                                         |
+| 8      | Implements tests for the behavior of all the three API methods                                                                                    |
+| 3      | Implements e2e flow test for happy path                                                                                                           |
+| 1      | Makes effective use of any 3rd party packages                                                                                                     |
+| ---    | **Organization**                                                                                                                                  |
+| 6      | Before beginning, formulates and expresses a plan using pseudo-code, writing notes, drawing diagrams, or the like                                 |
+| 2      | Arranges any directories, modules, and logic in a way that is consistent and intuitive                                                            |
+| 2      | Provides names for functions and variables that are clear and expressive                                                                          |
+| 2      | Leaves intelligent git commit messages                                                                                                            |
+| ---    | **Presentation**                                                                                                                                  |
+| 4      | Provides an appropriate amount of documentation in the form of code comments                                                                      |
+| 8      | Explains their implementation choices and walks through their submission clearly and confidently                                                  |
+| 2      | Reflects on any missteps or areas for improvement and is receptive to feedback shared                                                             |
+| 10     | Verbally articulates an Elixir concept of their choice in a way that would be easy to grasp for a junior engineer with limited exposure to Elixir |

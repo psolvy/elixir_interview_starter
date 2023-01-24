@@ -1,31 +1,74 @@
 defmodule ElixirInterviewStarterTest do
   use ExUnit.Case
-  doctest ElixirInterviewStarter
 
-  test "it can go through the whole flow happy path" do
+  alias ElixirInterviewStarter.CalibrationSession
+
+  setup do
+    on_exit(fn ->
+      ElixirInterviewStarter.Devices.Supervisor.terminate_all()
+      # this one for give registry some time to clear trminated processes names
+      Process.sleep(1)
+    end)
+
+    {:ok, %{email: Faker.Internet.email()}}
   end
 
-  test "start/1 creates a new calibration session and starts precheck 1" do
-  end
+  test "can successfuly calibrate device", %{email: email} do
+    assert {:ok,
+            %CalibrationSession{
+              email: ^email,
+              state: :precheck_1_started,
+              cartridge_status: nil,
+              submerged_in_water: nil
+            }} = ElixirInterviewStarter.start(email)
 
-  test "start/1 returns an error if the provided user already has an ongoing calibration session" do
-  end
+    [{pid, _}] = Registry.lookup(ElixirInterviewStarter.Devices.Registry, email)
+    Process.send(pid, %{"precheck1" => true}, [:noconnect])
 
-  test "start_precheck_2/1 starts precheck 2" do
-  end
+    assert {:ok,
+            %ElixirInterviewStarter.CalibrationSession{
+              email: ^email,
+              cartridge_status: nil,
+              submerged_in_water: nil,
+              state: :precheck_1_finished_with_success
+            }} = ElixirInterviewStarter.get_current_session(email)
 
-  test "start_precheck_2/1 returns an error if the provided user does not have an ongoing calibration session" do
-  end
+    assert {:ok,
+            %CalibrationSession{
+              email: ^email,
+              state: :precheck_2_started,
+              cartridge_status: nil,
+              submerged_in_water: nil
+            }} = ElixirInterviewStarter.start_precheck_2(email)
 
-  test "start_precheck_2/1 returns an error if the provided user's ongoing calibration session is not done with precheck 1" do
-  end
+    Process.send(pid, %{"cartridgeStatus" => true}, [:noconnect])
 
-  test "start_precheck_2/1 returns an error if the provided user's ongoing calibration session is already done with precheck 2" do
-  end
+    assert {:ok,
+            %ElixirInterviewStarter.CalibrationSession{
+              email: ^email,
+              cartridge_status: true,
+              submerged_in_water: nil,
+              state: :precheck_2_started
+            }} = ElixirInterviewStarter.get_current_session(email)
 
-  test "get_current_session/1 returns the provided user's ongoing calibration session" do
-  end
+    Process.send(pid, %{"submergedInWater" => true}, [:noconnect])
 
-  test "get_current_session/1 returns nil if the provided user has no ongoing calibrationo session" do
+    assert {:ok,
+            %ElixirInterviewStarter.CalibrationSession{
+              email: ^email,
+              cartridge_status: true,
+              submerged_in_water: true,
+              state: :calibration_started
+            }} = ElixirInterviewStarter.get_current_session(email)
+
+    Process.send(pid, %{"calibrated" => true}, [:noconnect])
+
+    assert {:ok,
+            %ElixirInterviewStarter.CalibrationSession{
+              email: ^email,
+              cartridge_status: true,
+              submerged_in_water: true,
+              state: :calibration_finished_with_success
+            }} = ElixirInterviewStarter.get_current_session(email)
   end
 end
